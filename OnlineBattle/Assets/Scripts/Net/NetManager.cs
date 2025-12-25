@@ -23,7 +23,7 @@ public class NetManager : Singleton<NetManager>
     }
 
     //获取描述
-    public string GetDesc()
+    public string GetIP()
     {
         if (socket == null || !socket.Connected) return "";
         return socket.LocalEndPoint.ToString();
@@ -65,6 +65,21 @@ public class NetManager : Singleton<NetManager>
         byte[] sendBytes = System.Text.Encoding.UTF8.GetBytes(sendStr);
         socket.Send(sendBytes);
     }
+
+    public void SendMove(Vector3 pos,Vector3 rot)
+    {
+        string sendStr =
+            $"Move|{NetManager.Instance.GetIP()},{pos.x},{pos.y},{pos.z},{rot.y}";
+        Send(sendStr);
+    }
+
+    public void SendEnter(Vector3 pos, Vector3 rot)
+    {
+        string sendStr =
+            $"Enter|{NetManager.Instance.GetIP()},{pos.x},{pos.y},{pos.z},{rot.y}";
+        Send(sendStr);
+    }
+
 
     public void OnUpdate()
     {

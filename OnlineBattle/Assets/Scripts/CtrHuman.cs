@@ -4,25 +4,17 @@ using UnityEngine;
 
 public class CtrHuman : BaseHuman
 {
-    protected override void Start()
+    public override bool GameUpdate()
     {
-        base.Start();
+        return base.GameUpdate();
     }
 
-    protected override void Update()
+    //进入游戏时调用 向服务器发送enter信息
+    public void SendEnterInfo()
     {
-        base.Update();
-        if (Input.GetMouseButtonDown(1))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray,out RaycastHit hit);
-            if(hit.collider.tag == "Terrain")
-            {
-                MoveTo(hit.point);
-                //发送移动协议
-                //告知协议名称 客户端身份 参数信息
-                NetManager.Instance.Send("Enter|127.1.1.1,100,200,300,45");
-            }
-        }
+        Vector3 pos = transform.position;
+        Vector3 rot = transform.eulerAngles;
+        NetManager.Instance.SendEnter(pos, rot);
     }
+   
 }
