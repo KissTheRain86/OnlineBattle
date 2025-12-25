@@ -80,6 +80,19 @@ public class NetManager : Singleton<NetManager>
         Send(sendStr);
     }
 
+    public bool IsSelf(string msg)
+    {
+        string[] split = msg.Split(',');
+        string ip = split[0];
+        return ip == NetManager.instance.GetIP();
+    }
+
+    public string GetIP(string msg)
+    {
+        string[] split = msg.Split(',');
+        string ip = split[0];
+        return ip;
+    }
 
     public void OnUpdate()
     {

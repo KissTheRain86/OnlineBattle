@@ -5,10 +5,10 @@ using UnityEngine;
 public class GameMain : MonoBehaviour
 {
     [SerializeField]
-    HumanFactory playerFactory = default;
+    HumanFactory humanFactory = default;
 
     private CtrHuman selfPlayer = default;
-    private Dictionary<string, BaseHuman> OtherPlayers = new();
+    private Dictionary<string, BaseHuman> otherPlayers = new();
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +22,7 @@ public class GameMain : MonoBehaviour
 
     private void SpawnSelfPlayer()
     {
-        selfPlayer = playerFactory.Get(NetManager.Instance.GetIP()) as CtrHuman;
+        selfPlayer = humanFactory.Get(NetManager.Instance.GetIP()) as CtrHuman;
         selfPlayer.SendEnterInfo();
     }
 
@@ -55,6 +55,13 @@ public class GameMain : MonoBehaviour
     void OnEnter(string msg)
     {
         Debug.Log("OnEnter" + msg._LogRed());
+
+        BaseHuman otherPlayer = humanFactory.GetOtherPlayer(msg);
+        if (otherPlayer != null)
+        {
+            string ip = NetManager.Instance.GetIP();
+            otherPlayers[ip] = otherPlayer;
+        }
     }
 
     void OnMove(string msg)
