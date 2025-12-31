@@ -6,7 +6,10 @@ using UnityEngine;
 public class HumanFactory : GameObjectFactory
 {
     [SerializeField]
-    public BaseHuman prefab = default;
+    public BaseHuman prefabSelfPlayer = default;
+
+    [SerializeField]
+    public BaseHuman prefabOtherPlayer = default;
 
     [SerializeField, Range(10f, 100f)]
     public float health;
@@ -17,30 +20,49 @@ public class HumanFactory : GameObjectFactory
     [SerializeField]
     public Vector3 bornPosition;
 
-    public BaseHuman Get(string desc)
+    public BaseHuman GetSelfPlayer()
     {
-        BaseHuman instance = CreateGameObjectInstance(prefab);
+        BaseHuman instance = CreateGameObjectInstance(prefabSelfPlayer);
         instance.OriginFactory = this;
-        instance.Initialize(speed, health, bornPosition,desc);
+        string ipStr = NetManager.Instance.GetSelfIP();
+        instance.Initialize(speed, health, bornPosition,ipStr);
         return instance;
     }
 
-    public BaseHuman GetOtherPlayer(string msg)
+    public SyncHuman GetOtherPlayer(Vector3 bornPos,string desc)
     {
-        if (NetManager.Instance.IsSelf(msg)) return null;
-        string[] split = msg.Split(',');
-        string ip = split[0];
-        float x = float.Parse(split[1]);
-        float y = float.Parse(split[2]);
-        float z = float.Parse(split[3]);
-        float eulY = float.Parse(split[4]);
-       
-        Vector3 bornPos = new Vector3(x, y, z);
-        BaseHuman instance = CreateGameObjectInstance(prefab);
+
+        SyncHuman instance = CreateGameObjectInstance(prefabOtherPlayer) as SyncHuman;
         instance.OriginFactory = this;
-        instance.Initialize(speed, health, bornPos, ip);
+        instance.Initialize(speed, health, bornPos, desc);
         return instance;
     }
+
+    //玩家list
+    public List<SyncHuman> GetOtherPlayers(string msg)
+    {
+        List<SyncHuman> res = new();
+        string[] split = msg.Split(',');
+        int count = split.Length / 6;
+        for(int i = 0; i < count; i++)
+        {
+            string ip = split[i * 6 + 0];
+            float x = float.Parse(split[i * 6 + 1]);
+            float y = float.Parse(split[i * 6 + 2]);
+            float z = float.Parse(split[i * 6 + 3]);
+            float eulY = float.Parse(split[i * 6 + 4]);
+            int hp = int.Parse(split[i * 6 + 5]);
+            if (ip == NetManager.Instance.GetSelfIP()) continue;
+
+            Vector3 bornPos = new Vector3(x, y, z);
+            SyncHuman instance = CreateGameObjectInstance(prefabOtherPlayer) as SyncHuman;
+            instance.OriginFactory = this;
+            instance.Initialize(speed, health, bornPos, ip);
+            res.Add(instance);
+        }
+        return res;
+    }
+    
 
     public void Reclaim(BaseHuman human)
     {

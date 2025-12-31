@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a01b77b2f16d8646b110ec182c0273e, type: 3}
   m_Name: SelfPlayeractory
   m_EditorClassIdentifier: 
-  prefab: {fileID: -6720491464799267962, guid: 949d5629ea4584041bf2aaeb287d55af, type: 3}
+  prefabSelfPlayer: {fileID: -6720491464799267962, guid: 949d5629ea4584041bf2aaeb287d55af,
+    type: 3}
+  prefabOtherPlayer: {fileID: -6677585586933513721, guid: 6a4c5a17c34b9bf4ca56e0a81f91f810,
+    type: 3}
   health: 100
   speed: 5
   bornPosition: {x: 0, y: 0, z: 0}
