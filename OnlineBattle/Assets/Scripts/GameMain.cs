@@ -54,7 +54,11 @@ public class GameMain : MonoBehaviour
                 selfPlayer.MoveTo(hit.point);
                 //发送移动协议
                 //告知协议名称 客户端身份 参数信息
-                NetManager.Instance.SendMove(hit.point, selfPlayer.transform.eulerAngles);
+                Vector3 toVec = hit.point - selfPlayer.transform.position;
+                toVec.y = 0;//清除y方向的值 只考虑平面方向
+
+                float eulY = Quaternion.LookRotation(toVec).eulerAngles.y;
+                NetManager.Instance.SendMove(hit.point, eulY);
             }
         }
     }
@@ -71,7 +75,7 @@ public class GameMain : MonoBehaviour
         Vector3 bornPos = new Vector3(x, y, z);
 
         if (ip == NetManager.Instance.GetSelfIP()) return;
-        BaseHuman otherPlayer = humanFactory.GetOtherPlayer(bornPos,ip);
+        BaseHuman otherPlayer = humanFactory.GetOtherPlayer(bornPos,0,ip);
         if (otherPlayer != null)
         {
             otherPlayers[otherPlayer.Desc] = otherPlayer;
@@ -94,7 +98,7 @@ public class GameMain : MonoBehaviour
             Vector3 bornPos = new Vector3(x, y, z);
 
             if (ip == NetManager.Instance.GetSelfIP()) continue;
-            BaseHuman otherPlayer = humanFactory.GetOtherPlayer(bornPos, ip);
+            BaseHuman otherPlayer = humanFactory.GetOtherPlayer(bornPos,eulY,ip);
             if (otherPlayer != null)
             {
                 otherPlayers[otherPlayer.Desc] = otherPlayer;

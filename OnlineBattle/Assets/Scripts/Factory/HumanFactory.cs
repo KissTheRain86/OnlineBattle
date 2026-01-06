@@ -25,16 +25,16 @@ public class HumanFactory : GameObjectFactory
         BaseHuman instance = CreateGameObjectInstance(prefabSelfPlayer);
         instance.OriginFactory = this;
         string ipStr = NetManager.Instance.GetSelfIP();
-        instance.Initialize(speed, health, bornPosition,ipStr);
+        instance.Initialize(speed, health, bornPosition,0,ipStr);
         return instance;
     }
 
-    public SyncHuman GetOtherPlayer(Vector3 bornPos,string desc)
+    public SyncHuman GetOtherPlayer(Vector3 bornPos,float eulY,string desc)
     {
 
         SyncHuman instance = CreateGameObjectInstance(prefabOtherPlayer) as SyncHuman;
         instance.OriginFactory = this;
-        instance.Initialize(speed, health, bornPos, desc);
+        instance.Initialize(speed, health, bornPos,eulY, desc);
         return instance;
     }
     

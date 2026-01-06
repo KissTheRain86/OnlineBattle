@@ -30,11 +30,12 @@ namespace OnlineBattleServer
             this.eulY = eulY;
         }
 
-        public void RefreshPlayerInfo(float x, float y, float z)
+        public void RefreshPlayerInfo(float x, float y, float z,float eulY)
         {
             this.x = x;
             this.y = y;
             this.z = z;
+            this.eulY = eulY;
         }
 
 

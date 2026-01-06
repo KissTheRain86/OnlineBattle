@@ -37,6 +37,7 @@ namespace OnlineBattleServer
                 sendStr += state.eulY.ToString()+",";
                 sendStr += state.hp.ToString()+",";
             }
+            Console.WriteLine("send:"+sendStr);
             MainClass.Send(c,sendStr);
            // Console.WriteLine("MsgList" + msgArgs);
         }
@@ -48,7 +49,8 @@ namespace OnlineBattleServer
             float x = float.Parse(split[1]);
             float y = float.Parse(split[2]);
             float z = float.Parse(split[3]);  
-            c.RefreshPlayerInfo(x,y,z);
+            float eulY = float.Parse(split[4]); 
+            c.RefreshPlayerInfo(x,y,z,eulY);
             string sendStr = "Move|" + msgArgs;
             foreach (var cs in MainClass.Clients.Values)
             {

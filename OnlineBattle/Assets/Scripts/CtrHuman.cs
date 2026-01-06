@@ -13,8 +13,8 @@ public class CtrHuman : BaseHuman
     public void SendEnterInfo()
     {
         Vector3 pos = transform.position;
-        Vector3 rot = transform.eulerAngles;
-        NetManager.Instance.SendEnter(pos, rot);
+        float eulY = transform.eulerAngles.y;
+        NetManager.Instance.SendEnter(pos, eulY);
     }
    
 }

@@ -24,11 +24,12 @@ public class BaseHuman : GameBehavior
 
     private HumanFactory originFactory;
 
-    public void Initialize(float speed,float health,Vector3 bornPosition,string desc)
+    public void Initialize(float speed,float health,Vector3 bornPosition,float eulY,string desc)
     {
         this.speed = speed;
         this.health = health;
         this.transform.localPosition = bornPosition;
+        this.transform.localEulerAngles = new Vector3(0, eulY, 0);
         this.Desc = desc;
         animator = GetComponent<Animator>();
     }

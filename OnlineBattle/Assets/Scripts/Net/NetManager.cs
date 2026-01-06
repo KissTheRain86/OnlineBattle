@@ -91,17 +91,17 @@ public class NetManager : Singleton<NetManager>
         socket.Send(sendBytes);
     }
 
-    public void SendMove(Vector3 pos,Vector3 rot)
+    public void SendMove(Vector3 pos,float eulY)
     {
         string sendStr =
-            $"Move|{NetManager.Instance.GetSelfIP()},{pos.x},{pos.y},{pos.z},{rot.y}";
+            $"Move|{NetManager.Instance.GetSelfIP()},{pos.x},{pos.y},{pos.z},{eulY}";
         Send(sendStr);
     }
 
-    public void SendEnter(Vector3 pos, Vector3 rot)
+    public void SendEnter(Vector3 pos, float eulY)
     {
         string sendStr =
-            $"Enter|{NetManager.Instance.GetSelfIP()},{pos.x},{pos.y},{pos.z},{rot.y}";
+            $"Enter|{NetManager.Instance.GetSelfIP()},{pos.x},{pos.y},{pos.z},{eulY}";
         Send(sendStr);
     }
     public void OnUpdate()
