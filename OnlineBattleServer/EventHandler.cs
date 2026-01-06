@@ -11,6 +11,17 @@ namespace OnlineBattleServer
         public static void OnDisconnect(ClientState state)
         {
             Console.WriteLine("OnDisconnect");
+            if (state == null || state.socket == null)
+            {
+                Console.WriteLine("state is null");
+                return;
+            }
+            string desc = state.socket.RemoteEndPoint.ToString();
+            string sendStr = "Leave|"+desc+",";
+            foreach(var cs in MainClass.Clients.Values)
+            {
+                MainClass.Send(cs,sendStr);
+            }
         }
     }
 }

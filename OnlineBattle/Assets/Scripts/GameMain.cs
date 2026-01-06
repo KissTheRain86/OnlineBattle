@@ -123,6 +123,12 @@ public class GameMain : MonoBehaviour
     void OnLeave(string msg)
     {
         Debug.Log("OnLeave" + msg._LogRed());
+        string[] split = msg.Split(",");
+        string desc = split[0];
+        if (!otherPlayers.ContainsKey(desc)) return;
+        BaseHuman h = otherPlayers[desc];
+        h.Recycle();
+        otherPlayers.Remove(desc);
     }
 
 }
