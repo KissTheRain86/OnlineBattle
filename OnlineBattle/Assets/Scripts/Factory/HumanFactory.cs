@@ -17,6 +17,9 @@ public class HumanFactory : GameObjectFactory
     [SerializeField, Range(1f, 100f)]
     public float speed;
 
+    [SerializeField, Range(1f, 100f)]
+    public float attackCD;
+
     [SerializeField]
     public Vector3 bornPosition;
 
@@ -25,7 +28,7 @@ public class HumanFactory : GameObjectFactory
         BaseHuman instance = CreateGameObjectInstance(prefabSelfPlayer);
         instance.OriginFactory = this;
         string ipStr = NetManager.Instance.GetSelfIP();
-        instance.Initialize(speed, health, bornPosition,0,ipStr);
+        instance.Initialize(speed, health, bornPosition,0,ipStr,attackCD);
         return instance;
     }
 
@@ -34,7 +37,7 @@ public class HumanFactory : GameObjectFactory
 
         SyncHuman instance = CreateGameObjectInstance(prefabOtherPlayer) as SyncHuman;
         instance.OriginFactory = this;
-        instance.Initialize(speed, health, bornPos,eulY, desc);
+        instance.Initialize(speed, health, bornPos,eulY, desc, attackCD);
         return instance;
     }
     

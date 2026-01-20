@@ -18,4 +18,5 @@ MonoBehaviour:
     type: 3}
   health: 100
   speed: 5
+  attackCD: 1
   bornPosition: {x: 0, y: 0, z: 0}

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CtrHuman : BaseHuman
 {
-    public override bool GameUpdate()
+    public override void GameUpdate()
     {
-        return base.GameUpdate();
+        base.GameUpdate();
     }
 
     //进入游戏时调用 向服务器发送enter信息

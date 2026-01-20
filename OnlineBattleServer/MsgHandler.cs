@@ -58,5 +58,14 @@ namespace OnlineBattleServer
             }
             //Console.WriteLine("MsgMove" + msgArgs);
         }
+
+        public static void MsgAttack(ClientState c, string msgArgs)
+        {
+            string sendStr = "Attack|" + msgArgs;
+            foreach(var cs in MainClass.Clients.Values)
+            {
+                MainClass.Send(cs, sendStr);
+            }
+        }
     }
 }

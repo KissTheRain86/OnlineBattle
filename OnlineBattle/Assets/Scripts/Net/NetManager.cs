@@ -98,6 +98,12 @@ public class NetManager : Singleton<NetManager>
         Send(sendStr);
     }
 
+    public void SendAttack(float eulY)
+    {
+        string sendStr =
+            $"Attack|{NetManager.Instance.GetSelfIP()},{eulY}";
+        Send(sendStr);
+    }
     public void SendEnter(Vector3 pos, float eulY)
     {
         string sendStr =

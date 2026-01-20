@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class GameBehavior : MonoBehaviour
 {
-    public virtual bool GameUpdate() { return true; }
+    public abstract void GameUpdate();
 
     public abstract void Recycle();
 }

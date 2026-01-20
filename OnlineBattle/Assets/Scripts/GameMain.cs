@@ -17,6 +17,8 @@ public class GameMain : MonoBehaviour
         NetManager.Instance.AddListener("List", OnList);
         NetManager.Instance.AddListener("Move", OnMove);
         NetManager.Instance.AddListener("Leave", OnLeave);
+        NetManager.Instance.AddListener("Attack", OnAttack);
+
         NetManager.Instance.Connect("127.0.0.1", 8888);
         SpawnSelfPlayer();
         //请求玩家列表
@@ -61,7 +63,23 @@ public class GameMain : MonoBehaviour
                 NetManager.Instance.SendMove(hit.point, eulY);
             }
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (selfPlayer.IsAttacking || selfPlayer.IsMoving) return;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Physics.Raycast(ray, out RaycastHit hit);
+            selfPlayer.transform.LookAt(hit.point);
+            selfPlayer.Attack();
+            NetManager.Instance.SendAttack(selfPlayer.transform.eulerAngles.y);
+
+            //攻击判定
+            
+        }
     }
+
+
+   
     //收到其他人进入游戏的推送
     void OnEnter(string msg)
     {
@@ -123,6 +141,19 @@ public class GameMain : MonoBehaviour
         h.MoveTo(targetPos);
 
     }
+
+    void OnAttack(string msg)
+    {
+        Debug.Log("OnAttack" + msg._LogRed());
+
+        string[] split = msg.Split(',');
+        string ip = split[0];
+        float eulY = float.Parse(split[1]);
+        if (!otherPlayers.ContainsKey(ip)) return;
+        SyncHuman h = otherPlayers[ip] as SyncHuman;
+        h.SyncAttack(eulY);
+    }
+
 
     void OnLeave(string msg)
     {
