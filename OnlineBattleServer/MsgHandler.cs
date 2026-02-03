@@ -67,5 +67,29 @@ namespace OnlineBattleServer
                 MainClass.Send(cs, sendStr);
             }
         }
+
+        public static void MsgHit(ClientState c, string msgArgs)
+        {
+            string[] split = msgArgs.Split(',');
+            string attackIp = split[0];
+            string hitIp = split[1];
+            ClientState hisCs = null;
+            foreach(var cs in MainClass.Clients.Values)
+            {
+                if(cs.socket.RemoteEndPoint?.ToString() == hitIp)
+                    hisCs = cs;
+                if (hisCs == null) return;
+                hisCs.hp -= 25;//test
+                //死亡则广播死亡协议 
+                if (hisCs.hp <= 0)
+                {
+                    string sendStr = "Die|" + hisCs.socket.RemoteEndPoint.ToString();
+                    foreach(ClientState client in MainClass.Clients.Values)
+                    {
+                        MainClass.Send(client, sendStr);
+                    }
+                }
+            }
+        }
     }
 }

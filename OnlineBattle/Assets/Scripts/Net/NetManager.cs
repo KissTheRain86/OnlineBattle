@@ -104,6 +104,13 @@ public class NetManager : Singleton<NetManager>
             $"Attack|{NetManager.Instance.GetSelfIP()},{eulY}";
         Send(sendStr);
     }
+
+    public void SendHit(string hitIp)
+    {
+        string sendStr =
+            $"Hit|{NetManager.Instance.GetSelfIP()},{hitIp}";
+        Send(sendStr);
+    }
     public void SendEnter(Vector3 pos, float eulY)
     {
         string sendStr =

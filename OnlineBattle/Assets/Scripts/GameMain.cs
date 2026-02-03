@@ -74,7 +74,16 @@ public class GameMain : MonoBehaviour
             NetManager.Instance.SendAttack(selfPlayer.transform.eulerAngles.y);
 
             //攻击判定
-            
+            Vector3 lineEnd = selfPlayer.transform.position + 0.5f * Vector3.up;
+            Vector3 lineStart = lineEnd + 20 * selfPlayer.transform.forward;
+            if (Physics.Linecast(lineStart, lineEnd, out hit))
+            {
+                GameObject hitObj = hit.collider.gameObject;
+                if (hitObj == selfPlayer.gameObject) return;
+                SyncHuman h = hitObj.GetComponent<SyncHuman>();
+                if (h == null) return;
+                NetManager.Instance.SendHit(h.Desc);
+            }
         }
     }
 
